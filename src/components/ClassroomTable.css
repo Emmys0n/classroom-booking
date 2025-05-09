@@ -1,0 +1,58 @@
+/* src/components/ClassroomTable.css */
+.classroom-container {
+    margin: 20px;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .styled-table th {
+    background-color: #f7f7f7;
+    color: #333;
+    padding: 8px;
+    font-weight: bold;
+    border-bottom: 2px solid #ddd;
+    text-align: center;
+  }
+  
+  .styled-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+    height: 40px;
+    background-color: #ffffff;
+  }
+  
+  /* Цветовая индикация */
+  .cell.occupied {
+    background-color: #4caf50 !important;
+    color: white;
+  }
+  
+  .cell.permanent {
+    background-color: #ffd700 !important;
+    color: black;
+  }
+  
+  .cell.temporary {
+    background-color: #1e90ff !important;
+    color: white;
+  }
+  
+  /* Разделитель между днями */
+  .day-divider td {
+    height: 5px;
+    background-color: #e0e0e0;
+    border: none;
+    padding: 0;
+  }
+  
