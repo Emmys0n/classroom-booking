@@ -36,7 +36,7 @@ const ClassroomTable = () => {
             {row.map((cell, cellIndex) => (
               <td
                 key={`cell-${cellIndex}`}
-                className={`cell ${cell.color}`}
+                className={`cell ${cell.color} ${cell.hasComment ? 'has-comment' : ''}`}
               >
                 {cell.text}
                 {cell.comment && (

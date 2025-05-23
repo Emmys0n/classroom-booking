@@ -18,10 +18,16 @@
   position: relative;
 }
 
-/* Цвета ячеек */
-.cell.occupied { background-color: #4caf50; color: white; }
-.cell.permanent { background-color: #ffd700; color: black; }
-.cell.temporary { background-color: #1e90ff; color: white; }
+/* Базовые цвета */
+.cell.occupied { background-color: #4CAF50; color: white; }
+.cell.permanent { background-color: #FFD700; color: black; }
+.cell.temporary { background-color: #1E90FF; color: white; }
+
+/* Ячейки с комментариями - всегда зелёные */
+.cell.has-comment {
+  background-color: #4CAF50 !important;
+  color: white !important;
+}
 
 /* Разделитель дней */
 .day-divider td {
@@ -40,7 +46,7 @@
   height: 8px;
   background-color: red;
   border-radius: 50%;
-  cursor: pointer;
+  cursor: help;
 }
 
 .comment-indicator:hover::after {
