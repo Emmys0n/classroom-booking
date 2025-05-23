@@ -62,3 +62,10 @@
   white-space: nowrap;
   z-index: 10;
 }
+
+.row-separator td {
+  background-color: #e0e0e0 !important;
+  height: 4px !important;
+  padding: 0 !important;
+  border: none !important;
+}

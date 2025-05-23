@@ -17,42 +17,51 @@ const ClassroomTable = () => {
 
   const renderRows = () => {
     let lastDay = '';
-
-    return schedule.map((row, rowIndex) => {
+    let countSinceLastDivider = 0;
+    const rows = [];
+  
+    schedule.forEach((row, rowIndex) => {
       const currentDay = row[0]?.text?.trim() || '';
       const isNewDay = currentDay && currentDay !== lastDay;
-
-      if (isNewDay) lastDay = currentDay;
-
-      return (
-        <React.Fragment key={`row-${rowIndex}`}>
-          {isNewDay && rowIndex > 0 && (
-            <tr className="day-divider">
-              {row.map((_, i) => <td key={`div-${i}`} />)}
+  
+      if (isNewDay) {
+        countSinceLastDivider = 0;
+        lastDay = currentDay;
+        if (rowIndex > 0) {
+          rows.push(
+            <tr className="day-divider" key={`day-divider-${rowIndex}`}>
+              {row.map((_, i) => <td key={`dd-${i}`} />)}
             </tr>
-          )}
-
-          <tr>
-            {row.map((cell, cellIndex) => (
-              <td
-                key={`cell-${cellIndex}`}
-                className={`cell ${cell.color} ${cell.hasComment ? 'has-comment' : ''}`}
-              >
-                {cell.text}
-                {cell.comment && (
-                  <div 
-                    className="comment-indicator"
-                    title={cell.comment}
-                  />
-                )}
-              </td>
-            ))}
+          );
+        }
+      } else if (countSinceLastDivider === 2) {
+        rows.push(
+          <tr className="row-separator" key={`gray-${rowIndex}`}>
+            {row.map((_, i) => <td key={`gray-${i}`} />)}
           </tr>
-        </React.Fragment>
+        );
+        countSinceLastDivider = 0;
+      }
+  
+      rows.push(
+        <tr key={`row-${rowIndex}`}>
+          {row.map((cell, cellIndex) => (
+            <td key={`cell-${cellIndex}`} className={`cell ${cell.color} ${cell.hasComment ? 'has-comment' : ''}`}>
+              <div className="cell-content">
+                {cell.text}
+                {cell.comment && <span className="comment-indicator" title={cell.comment} />}
+              </div>
+            </td>
+          ))}
+        </tr>
       );
+  
+      countSinceLastDivider++;
     });
+  
+    return rows;
   };
-
+  
   return (
     <div className="classroom-container">
       <h2>Расписание аудиторий</h2>
