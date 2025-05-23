@@ -1,4 +1,3 @@
-// src/components/ClassroomTable.js
 import React, { useState } from 'react';
 import { parseExcelFile } from '../services/Parser';
 import './ClassroomTable.css';
@@ -7,63 +6,67 @@ const ClassroomTable = () => {
   const [schedule, setSchedule] = useState([]);
   const [parsed, setParsed] = useState(false);
 
-  const handleFileUpload = async (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const data = await parseExcelFile(file);
-      setSchedule(data);
-      setParsed(true);
-    }
-  };
-
-  const renderCell = (cell, cellIndex) => {
-    return (
-      <td
-        key={cellIndex}
-        className={`cell ${cell.color}`}
-      >
-        {cell.text}
-      </td>
-    );
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const data = await parseExcelFile(file);
+    setSchedule(data);
+    setParsed(true);
   };
 
   const renderRows = () => {
-    const rows = [];
-    for (let i = 0; i < schedule.length; i++) {
-      // Добавляем обычную строку
-      rows.push(
-        <tr key={`row-${i}`}>
-          {schedule[i].map(renderCell)}
-        </tr>
-      );
+    let lastDay = '';
 
-      // Если это конец блока 21 строк, добавляем разделитель
-      if ((i + 1) % 21 === 0 && i !== schedule.length - 1) {
-        rows.push(
-          <tr key={`divider-${i}`} className="day-divider">
-            <td colSpan={schedule[i].length} />
+    return schedule.map((row, rowIndex) => {
+      const currentDay = row[0]?.text?.trim() || '';
+      const isNewDay = currentDay && currentDay !== lastDay;
+
+      if (isNewDay) lastDay = currentDay;
+
+      return (
+        <React.Fragment key={`row-${rowIndex}`}>
+          {isNewDay && rowIndex > 0 && (
+            <tr className="day-divider">
+              {row.map((_, i) => <td key={`div-${i}`} />)}
+            </tr>
+          )}
+
+          <tr>
+            {row.map((cell, cellIndex) => (
+              <td
+                key={`cell-${cellIndex}`}
+                className={`cell ${cell.color}`}
+              >
+                {cell.text}
+                {cell.comment && (
+                  <div 
+                    className="comment-indicator"
+                    title={cell.comment}
+                  />
+                )}
+              </td>
+            ))}
           </tr>
-        );
-      }
-    }
-    return rows;
+        </React.Fragment>
+      );
+    });
   };
 
   return (
     <div className="classroom-container">
-      <h2>Загрузка расписания из Excel</h2>
-      <input type="file" onChange={handleFileUpload} accept=".xlsx, .xls" />
-
+      <h2>Расписание аудиторий</h2>
+      <input
+        type="file"
+        onChange={handleFileUpload}
+        accept=".xlsx, .xls"
+      />
       {parsed ? (
-        <div className="table-wrapper">
-          <table className="styled-table">
-            <tbody>
-              {renderRows()}
-            </tbody>
-          </table>
-        </div>
+        <table className="styled-table">
+          <tbody>{renderRows()}</tbody>
+        </table>
       ) : (
-        <p className="empty-message">Выберите Excel файл с расписанием</p>
+        <p>Загрузите файл расписания</p>
       )}
     </div>
   );

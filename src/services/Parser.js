@@ -1,44 +1,42 @@
-// src/services/Parser.js
 import * as XLSX from 'xlsx';
 
 export const parseExcelFile = async (file) => {
-  try {
-    const data = await file.arrayBuffer();
-    const workbook = XLSX.read(data, { type: 'array' });
+  const data = await file.arrayBuffer();
+  const workbook = XLSX.read(data, {
+    type: 'array',
+    cellStyles: true,
+    cellComments: true
+  });
 
-    // Первый лист
-    const sheetName = workbook.SheetNames[0];
-    const worksheet = workbook.Sheets[sheetName];
+  const sheet = workbook.Sheets[workbook.SheetNames[0]];
+  const range = XLSX.utils.decode_range(sheet['!ref']);
+  const parsed = [];
 
-    // Получаем диапазон ячеек
-    const range = XLSX.utils.decode_range(worksheet['!ref']);
-    const rows = [];
+  for (let row = range.s.r; row <= range.e.r; row++) {
+    const rowData = [];
+    for (let col = range.s.c; col <= range.e.c; col++) {
+      const address = XLSX.utils.encode_cell({ r: row, c: col });
+      const cell = sheet[address];
 
-    // Проходим по всем строкам и колонкам
-    for (let rowNum = range.s.r; rowNum <= range.e.r; rowNum++) {
-      const row = [];
-      for (let colNum = range.s.c; colNum <= range.e.c; colNum++) {
-        const cellAddress = XLSX.utils.encode_cell({ r: rowNum, c: colNum });
-        const cell = worksheet[cellAddress];
+      if (cell) {
+        // Определяем цвет
+        const excelColor = cell.s?.fill?.fgColor?.rgb || '';
+        let colorClass = '';
+        if (/4CAF50/i.test(excelColor)) colorClass = 'occupied';
+        else if (/FFD700/i.test(excelColor)) colorClass = 'permanent';
+        else if (/1E90FF/i.test(excelColor)) colorClass = 'temporary';
 
-        let color = '';
-
-        // Проверяем, есть ли комментарий (примечание)
-        if (cell?.c && cell.c.length > 0) {
-          color = 'occupied'; // Если есть примечание — зелёный
-        }
-
-        row.push({
-          text: cell ? cell.v : '',
-          color: color,
+        rowData.push({
+          text: cell.v ?? '',
+          color: colorClass,
+          comment: cell.c?.[0]?.t || ''
         });
+      } else {
+        rowData.push({ text: '', color: '', comment: '' });
       }
-      rows.push(row);
     }
-    
-    return rows;
-  } catch (error) {
-    console.error("Ошибка при парсинге Excel:", error);
-    return [];
+    parsed.push(rowData);
   }
+
+  return parsed;
 };
