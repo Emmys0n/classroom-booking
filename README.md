@@ -1,70 +1,51 @@
-# Getting Started with Create React App
+# 📚 Модуль бронирования аудиторий
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> **Автор:** *Мигачев Павел Игоревич*  
+> Курсовая работа по направлению "Информационные системы и технологии"
 
-## Available Scripts
+Веб-приложение, предназначенное для бронирования аудиторий университета. Поддерживает загрузку расписания, выбор числителя/знаменателя и оформление бронирований с учётом типа недели.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 🚀 Возможности
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Загрузка расписания из Excel (.xlsx)
+- Поддержка типа недели: числитель / знаменатель
+- Выделение постоянных и разовых бронирований
+- Просмотр расписания в интерактивной таблице
+- Бронирование по клику с выбором времени, имени и комментария
+- Локальное хранение бронирований (без сервера)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## 🛠 Стек технологий
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **React** — интерфейс
+- **JavaScript, HTML, CSS** — логика и стили
+- **SheetJS (xlsx)** — парсинг Excel-файлов
+- **localStorage** — хранение данных
+- (Бэкенд планируется в будущем)
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 📂 Структура проекта
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```plaintext
+src/
+├── assets/
+├── components/
+│   ├── BookingForm.js              # Модальное окно бронирования
+│   ├── ClassroomTable.css          # Стили для таблицы
+│   ├── ClassroomTable.js           # Основная таблица расписания
+│   └── TimeSlot.js                 # Компонент слота времени (возможно временный)
+├── pages/
+│   ├── BookingPage.js              # Страница с таблицей
+│   └── HomePage.js                 # Домашняя страница (если потребуется)
+├── services/
+│   ├── bookingStorage.js           # Чтение/запись бронирований
+│   ├── BookingService.js           # Альтернативный модуль работы с хранилищем
+│   ├── Parser.js                   # Парсинг .xlsx в структуру
+│   └── fetchGoogleSheetData.js     # Потенциальный импорт из Google Sheets
+├── App.js                          # Корневой компонент
+├── index.js                        # Точка входа
+└── index.css                       # Общие стили
