@@ -248,3 +248,41 @@
 .cell {
   position: relative;
 }
+
+.week-switcher {
+  margin: 15px 0;
+  display: flex;
+  gap: 10px;
+}
+
+.week-switcher button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.week-switcher button.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.week-switcher button:not(.active) {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.week-switcher button:not(.active):hover {
+  background-color: #e0e0e0;
+}
+
+.striped-row {
+  background-color: #f9f9f9;
+}
+
+.day-header {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
